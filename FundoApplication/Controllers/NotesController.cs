@@ -9,9 +9,6 @@ using FunduManger.Interface;
 
 namespace FundoApplication.Controllers
 {
-
-    
-
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -88,8 +85,6 @@ namespace FundoApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-
-
         /// <summary>
         /// DeleteNotes for delete specific notes
         /// </summary>
