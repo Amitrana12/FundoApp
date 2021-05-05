@@ -85,8 +85,6 @@ namespace FundooRepository.Repository
             }
         }
 
-
-
         /// <summary>
         /// Removes the note.
         /// </summary>
@@ -133,6 +131,274 @@ namespace FundooRepository.Repository
                     return "UPDATE SUCCESSFULL";
                 }
                 return "Updation Failed";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// PinOrUnpin the notes
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        public string PinOrUnpin(int noteId)
+        {
+            try
+            {
+                var notes = this.userContext.Note_model.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (notes.Pin == false)
+                {
+                    notes.Pin = true;
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    string message = "Note is getting pin";
+                    return message;
+                }
+                if (notes.Pin == true)
+                {
+                    notes.Pin = false;
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    string message = "Note Unpinned";
+                    return message;
+                }
+                return "Unable to Pin or Unpin notes";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Archives the or unarchive.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        /// <exception cref="Exception"></exception>
+        public string ArchieveOrUnarchieve(int noteId)
+        {
+            try
+            {
+                var notes = this.userContext.Note_model.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (notes.Archive == false)
+                {
+                    notes.Archive = true;
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    string message = "Note is Archieve";
+                    return message;
+                }
+                if (notes.Archive == true)
+                {
+                    notes.Archive = false;
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    string message = "Note UnArchieve";
+                    return message;
+                }
+                return "Unable to Archieve or UnArchieve notes";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the archive notes.
+        /// </summary>
+        /// <returns>all notes i archive</returns>
+        /// <exception cref="Exception"></exception>
+        public IEnumerable<NotesModel> RetrieveArchieveNotes()
+        {
+            try
+            {
+                IEnumerable<NotesModel> result;
+                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x => x.Archive == true).ToList();
+                if (notes != null)
+                {
+                    result = notes;
+                }
+                else
+                {
+                    result = null;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// IsTrash 
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        public string IsTrash(int noteId)
+        {
+            try
+            {
+                var notes = this.userContext.Note_model.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (notes.isTrash == false)
+                {
+                    notes.isTrash = true;
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    string message = "Notes Is Trashed";
+                    return message;
+                }
+                if (notes.isTrash == true)
+                {
+                    notes.isTrash = false;
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    string message = "Note Restored";
+                    return message;
+                }
+
+                return "Unable to Trash or Restored notes"; ;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the trash notes.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public IEnumerable<NotesModel> RetrieveTrashNotes()
+        {
+            try
+            {
+                IEnumerable<NotesModel> result;
+                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x => x.isTrash == true).ToList();
+                if (notes != null)
+                {
+                    result = notes;
+                }
+                else
+                {
+                    result = null;
+                }
+                return result; ;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Empties the trash.
+        /// </summary>
+        /// <returns>return true or false</returns>
+        /// <exception cref="Exception"></exception>
+        public bool EmptyTrash()
+        {
+            try
+            {
+                IEnumerable<NotesModel> result = this.userContext.Note_model.Where(x => x.isTrash == true).ToList();
+                if (result != null)
+                {
+                    foreach (var trash in result)
+                    {
+                        this.userContext.Note_model.Remove(trash);
+                        this.userContext.SaveChangesAsync();
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Add the reminder.
+        /// </summary>
+        /// <param name="id">Note Id</param>
+        /// <param name="reminder">The reminder.</param>
+        /// <returns>return true or false</returns>
+        /// <exception cref="Exception"></exception>
+        public bool AddReminder(int noteId, string reminder)
+        {
+            try
+            {
+                var notes = this.userContext.Note_model.Where(x => x.NoteId == noteId).FirstOrDefault();
+                if (notes != null)
+                {
+                    notes.Reminder = reminder;
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the reminder by identifier.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>notes</returns>
+        /// <exception cref="Exception"></exception>
+        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet()
+        {
+            try
+            {
+                IEnumerable<NotesModel> result;
+                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x => x.Reminder.Length > 0);
+                if (notes != null)
+                {
+                    result = notes;
+                }
+                else
+                {
+                    result = null;
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Uns the set reminder.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>return true or false</returns>
+        /// <exception cref="Exception"></exception>
+        public bool UnSetReminder(int noteId)
+        {
+            try
+            {
+                var notes = this.userContext.Note_model.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (notes != null)
+                {
+                    notes.Reminder = null;
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {

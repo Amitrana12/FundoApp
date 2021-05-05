@@ -94,5 +94,177 @@ namespace FunduManger.Manager
             }
         }
 
+
+        /// <summary>
+        /// Pins the or unpin.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        /// <exception cref="Exception"></exception>
+        public string PinOrUnpin(int noteId)
+        {
+            try
+            {
+                string result = this.repository.PinOrUnpin(noteId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Archives the or un archive.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public string ArchieveOrUnArchieve(int noteId)
+        {
+            try
+            {
+                string result = this.repository.ArchieveOrUnarchieve(noteId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Retrieves the archive notes.
+        /// </summary>
+        /// <returns>all archieve notes</returns>
+        /// <exception cref="Exception"></exception>
+        public IEnumerable<NotesModel> RetrieveArchieveNotes()
+        {
+            try
+            {
+                IEnumerable<NotesModel> result = this.repository.RetrieveArchieveNotes();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Determines whether the specified identifier is trash.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        /// <exception cref="Exception"></exception>
+        public string isTrash(int noteId)
+        {
+            try
+            {
+                string result = this.repository.IsTrash(noteId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Empties the trash.
+        /// </summary>
+        /// <returns>return true or false</returns>
+        /// <exception cref="Exception"></exception>
+        public bool EmptyTrash()
+        {
+            try
+            {
+                bool result = this.repository.EmptyTrash();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the trash notes.
+        /// </summary>
+        /// <returns>all trash notes</returns>
+        /// <exception cref="Exception"></exception>
+        public IEnumerable<NotesModel> RetrieveTrashNotes()
+        {
+            try
+            {
+                IEnumerable<NotesModel> result = this.repository.RetrieveTrashNotes();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds the reminder.
+        /// </summary>
+        /// <param name="id">note id.</param>
+        /// <param name="reminder">The reminder.</param>
+        /// <returns>return true or false</returns>
+        /// <exception cref="Exception"></exception>
+        public bool AddReminder(int noteId, string reminder)
+        {
+            try
+            {
+                bool result = this.repository.AddReminder(noteId, reminder);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets all notes whoes reminder is set.
+        /// </summary>
+        /// <returns>notes whose reminder is set</returns>
+        /// <exception cref="Exception"></exception>
+        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet()
+        {
+            try
+            {
+                IEnumerable<NotesModel> notes = this.repository.GetAllNotesWhoesReminderIsSet();
+                return notes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Unsets the reminder.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>return true or false</returns>
+        /// <exception cref="Exception"></exception>
+        public bool UnsetReminder(int noteId)
+        {
+            try
+            {
+                bool result = this.repository.UnSetReminder(noteId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

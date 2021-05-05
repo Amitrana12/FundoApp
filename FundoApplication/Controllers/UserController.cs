@@ -28,7 +28,7 @@ namespace FundoApplication.Controllers
                 var result = this.manager.AddNewUser(userData);
                 if (result == true)
                 {
-                    return this.Ok(new ResponseModel<RegisterModel>() { Status = true, Message = "New User Added Successfully !" });
+                    return this.Ok(new ResponseModel<RegisterModel>() { Status = true, Message = "New User Added Successfully !", Data=userData});
                 }
 
                 return this.BadRequest(new ResponseModel<RegisterModel>() { Status = false, Message = "Unable to Add New User" });
