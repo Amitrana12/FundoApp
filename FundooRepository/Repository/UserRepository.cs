@@ -9,15 +9,21 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using Experimental.System.Messaging;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
 
 namespace FundooRepository.Repository
 {
-   public class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly UserContext userContext;
-        public UserRepository(UserContext userContext)
+        private readonly IConfiguration configuration;
+        public UserRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
+            this.configuration = configuration;
         }
 
         public static string EncryptPassword(string password)
@@ -44,7 +50,7 @@ namespace FundooRepository.Repository
                 var login = this.userContext.RegisterModels.Where(x => x.Email == email && x.Password == password).SingleOrDefault();
                 if (login != null)
                 {
-                    return true;      
+                    return true;
                 }
                 else
                 {
@@ -62,7 +68,8 @@ namespace FundooRepository.Repository
         {
             try
             {
-                if (userData != null) {
+                if (userData != null)
+                {
                     userData.Password = EncryptPassword(userData.Password);
                     this.userContext.RegisterModels.Add(userData);
                     this.userContext.SaveChanges();
@@ -76,7 +83,7 @@ namespace FundooRepository.Repository
 
                 throw new Exception(ex.Message);
             }
-         
+
         }
 
 
@@ -158,8 +165,8 @@ namespace FundooRepository.Repository
             {
                 msmqQueue = MessageQueue.Create(@".\Private$\MyQueue");
             }
-         
-           Message message = new Message();
+
+            Message message = new Message();
             message.Formatter = new BinaryMessageFormatter();
             message.Body = body;
             msmqQueue.Label = "url link";
@@ -174,5 +181,30 @@ namespace FundooRepository.Repository
             return body;
         }
 
+        public string GenerateToken(string email)
+        {
+            try
+            {
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                        {
+                            new Claim("Email",email)
+                        }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["Jwt:SecureKey"])), SecurityAlgorithms.HmacSha256)
+                };
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(securityToken);
+                return token;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new ArgumentNullException(ex.Message);
+            }
+
+        }
     }
 }

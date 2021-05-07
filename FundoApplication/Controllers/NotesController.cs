@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FundooModels;
-using FunduManger.Interface;
-
+﻿
 namespace FundoApplication.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using FundooModels;
+    using FunduManger.Interface;
+
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class NotesController : Controller
@@ -25,26 +27,26 @@ namespace FundoApplication.Controllers
         [HttpPost]
         [Route("addNotes")]
         public ActionResult AddNotes(NotesModel model)
-         {
-             try
-             {
-                 bool result = this.notesManager.AddNotes(model);
+        {
+            try
+            {
+                bool result = this.notesManager.AddNotes(model);
 
-                 if (result.Equals(true))
-                 {
-                     return this.Ok(new ResponseModel<NotesModel>() { Status = true, Message = "Notes Added Successfully", Data = model });
-                 }
+                if (result.Equals(true))
+                {
+                    return this.Ok(new ResponseModel<NotesModel>() { Status = true, Message = "Notes Added Successfully", Data = model });
+                }
 
-                 return this.BadRequest(new { Status = false, Message = "Failed to Add Notes" });
-             }
-             catch (Exception ex)
-             {
-                 return this.NotFound(new { Status = false, Message = ex.Message });
-             }
-         }
+                return this.BadRequest(new { Status = false, Message = "Failed to Add Notes" });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
 
         [HttpGet]
-        [Route("retrieveNotes")]
+        [Route("retrieveNotesAll")]
         public IActionResult RetrieveNotes()
         {
             try
@@ -66,7 +68,7 @@ namespace FundoApplication.Controllers
 
 
         [HttpGet]
-        [Route(" RetrieveNotes{noteId}")]
+        [Route(" RetrieveNotesByNoteID")]
         public IActionResult RetrieveNotesById(int noteId)
         {
             try
@@ -90,7 +92,7 @@ namespace FundoApplication.Controllers
         /// <param name="id">notes id</param>
         /// <returns>response data</returns>
         [HttpDelete]
-        [Route("DeleteNote{noteId}")]
+        [Route("DeleteNote")]
         public IActionResult DeleteNotes(int noteId)
         {
             try
@@ -116,7 +118,7 @@ namespace FundoApplication.Controllers
         /// <returns>response data</returns>
         [HttpPut]
         [Route("updateNotes")]
-        public IActionResult UpdateNotes( NotesModel model)
+        public IActionResult UpdateNotes(NotesModel model)
         {
             try
             {

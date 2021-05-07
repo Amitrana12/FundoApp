@@ -44,6 +44,18 @@ namespace FunduManger.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public string GenerateToken(string email) {
+            try
+            {
+
+                return this.repository.GenerateToken(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         /// <summary>
         /// 
         /// </summary>

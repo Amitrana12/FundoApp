@@ -13,9 +13,9 @@ namespace FundooRepository.Repository
     public class NotesRepository : INotesRepository
     {
         private UserContext userContext;
-         private IConfiguration configuration;
+        private IConfiguration configuration;
 
-        public NotesRepository(UserContext userContext, IConfiguration configuration) 
+        public NotesRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
             this.configuration = configuration;

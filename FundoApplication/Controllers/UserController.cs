@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace FundoApplication.Controllers
 {
-    public class UserController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class UserController : ControllerBase
     {
         private readonly IUserManager manager;
         
@@ -20,7 +22,7 @@ namespace FundoApplication.Controllers
         }
 
         [HttpPost]
-        [Route("api/register")]
+        [Route("register")]
         public IActionResult Register(RegisterModel userData)
         {
             try
@@ -43,7 +45,7 @@ namespace FundoApplication.Controllers
         }
 
         [HttpPost]
-        [Route("api/loginEmployee")]
+        [Route("loginEmployee")]
         public ActionResult LoginEmployee(LoginModel model)
         {
             try
@@ -52,8 +54,8 @@ namespace FundoApplication.Controllers
                 var result = this.manager.Login(model.Email, model.Password);   
                 if (result.Equals(true))
                 {
-                 
-                    return this.Ok(new { Status = true, Message = "Login Sucessfully",});
+                    string token = this.manager.GenerateToken(model.Email);
+                    return this.Ok(new { Status = true, Message = "Login Sucessfully",data=token    });
                 }
 
                 return this.BadRequest(new { Status = false, Message = "Failed to login the user :Email or Password mismatched" });
@@ -67,7 +69,7 @@ namespace FundoApplication.Controllers
 
 
         [HttpPost]
-        [Route("api/forgetPassword")]
+        [Route("forgetPassword")]
         public IActionResult ForgotPassword(string emailAddress)
         {
             try
@@ -88,7 +90,7 @@ namespace FundoApplication.Controllers
 
         [HttpPut]
         [Route("resetPassword")]
-        public IActionResult ResetPasswordEmployee([FromBody] ResetPassword resetPassword)
+        public IActionResult ResetPasswordEmployee(ResetPassword resetPassword)
         {
             try
             {

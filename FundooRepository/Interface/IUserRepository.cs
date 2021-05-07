@@ -12,6 +12,8 @@ namespace FundooRepository.Interface
 
         public bool Login(string email, string password);
 
+        public string GenerateToken(string email);
+
 
         public bool SendEmail(string emailAddress);
 
