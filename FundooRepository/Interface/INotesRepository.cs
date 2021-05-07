@@ -1,4 +1,5 @@
 ﻿using FundooModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -91,6 +92,21 @@ namespace FundooRepository.Interface
         /// <returns>return true or false</returns>
         public bool UnSetReminder(int id);
 
+        /// <summary>
+        /// Adds the colour.
+        /// </summary>
+        /// <param name="id">note id.</param>
+        /// <param name="color">The color.</param>
+        /// <returns>return true or false</returns>
+        public bool AddColour(int id, string color);
+
+        /// <summary>
+        /// Uploads the image.
+        /// </summary>
+        /// <param name="Noteimage">The noteimage.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns>return true or false</returns>
+        public bool UploadImage(int id, IFormFile noteimage);
 
     }
 }

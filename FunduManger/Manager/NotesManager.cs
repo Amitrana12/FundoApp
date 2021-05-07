@@ -1,9 +1,11 @@
 ﻿using FundooModels;
 using FundooRepository.Interface;
 using FunduManger.Interface;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
+
 
 namespace FunduManger.Manager
 {
@@ -266,5 +268,44 @@ namespace FunduManger.Manager
             }
         }
 
+        /// <summary>
+        /// Adds the color.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <param name="color">The color.</param>
+        /// <returns>return true or false</returns>
+        /// <exception cref="Exception"></exception>
+        public bool AddColor(int noteId, string color)
+        {
+            try
+            {
+                bool result = this.repository.AddColour(noteId, color);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Uploads the image.
+        /// </summary>
+        /// <param name="Noteimage">The noteimage.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns>return true or false</returns>
+        /// <exception cref="Exception"></exception>
+        public bool UploadImage(int noteId, IFormFile noteimage)
+        {
+            try
+            {
+                bool result = this.repository.UploadImage(noteId, noteimage);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

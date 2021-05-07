@@ -9,6 +9,7 @@ namespace FundoApplication.Controllers
     using System.Threading.Tasks;
     using FundooModels;
     using FunduManger.Interface;
+    using Microsoft.AspNetCore.Http;
 
     [Authorize]
     [ApiController]
@@ -350,6 +351,58 @@ namespace FundoApplication.Controllers
                 if (result.Equals(true))
                 {
                     return this.Ok(new ResponseModel<int>() { Status = true, Message = "Unset Reminder For Note Sucessfully", Data = noteId });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Adds the color.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <param name="color">The color</param>
+        /// <returns>response data</returns>
+        [HttpPut]
+        [Route("addColor")]
+        public IActionResult AddColor(int noteId, string color)
+        {
+            try
+            {
+                var result = this.notesManager.AddColor(noteId, color);
+                if (result.Equals(true))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Add Colour Sucessfully", Data = color });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Insert Image
+        /// </summary>
+        /// <param name="image">image parameter</param>
+        /// <param name="id">note id</param>
+        /// <returns>response data</returns>
+        [HttpPut]
+        [Route("uploadImage")]
+        public IActionResult UploadImage(int noteId, IFormFile image)
+        {
+            try
+            {
+                var result = this.notesManager.UploadImage(noteId, image);
+                if (result.Equals(true))
+                {
+                    return this.Ok(new ResponseModel<int>() { Status = true, Message = "Upload Image Successfully", Data = noteId });
                 }
 
                 return this.BadRequest(new { Status = false, Message = result });

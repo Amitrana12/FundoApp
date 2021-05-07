@@ -9,7 +9,8 @@ namespace FunduManger.Interface
 {
     using System.Collections.Generic;
     using FundooModels;
-   
+    using Microsoft.AspNetCore.Http;
+
     /// <summary>
     ///  interface INotesManager
     /// </summary>
@@ -108,5 +109,21 @@ namespace FunduManger.Interface
         /// <param name="noteId">note id</param>
         /// <returns>return true or false</returns>
         public bool UnsetReminder(int noteId);
+
+        /// <summary>
+        /// Add the color.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <param name="color">The color.</param>
+        /// <returns>return true or false</returns>
+        public bool AddColor(int noteId, string color);
+
+        /// <summary>
+        /// Uploads the image.
+        /// </summary>
+        /// <param name="noteimage">The noteimage.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns>return true or false</returns>
+        public bool UploadImage(int noteId, IFormFile noteimage);
     }
 }

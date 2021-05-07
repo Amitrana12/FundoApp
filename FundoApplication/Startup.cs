@@ -57,6 +57,8 @@ namespace FundoApplication
             services.AddTransient<INotesManager, NotesManager>();
             services.AddTransient<ICollaboratorRepository, CollaboratorRepository>();
             services.AddTransient<ICollaboratorManager, CollaboratorManager>();
+            services.AddTransient<ILableRepository, LableRepository>();
+            services.AddTransient<ILableManager, LableManager>();
             services.AddDbContextPool<UserContext>(
             options => options.UseSqlServer(this.Configuration.GetConnectionString("UserDbConnection")));
             services.AddSwaggerGen(c =>

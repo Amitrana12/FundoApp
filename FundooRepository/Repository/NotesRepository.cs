@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Http;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace FundooRepository.Repository
 {
@@ -405,6 +408,64 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public bool AddColour(int noteId, string color)
+        {
+            try
+            {
+                var notes = this.userContext.Note_model.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (notes != null)
+                {
+                    notes.Colour = color;
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
+        /// <summary>
+        /// Uploads the image.
+        /// </summary>
+        /// <param name="Noteimage">The noteimage.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns>return true or false</returns>
+        /// <exception cref="Exception"></exception>
+        public bool UploadImage(int noteId, IFormFile noteimage)
+        {
+            try
+            {
+                var notes = this.userContext.Note_model.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (notes != null)
+                {
+                    Account account = new Account
+                    (
+                        configuration["CloudinaryAccount:CloudName"],
+                        configuration["CloudinaryAccount:ApiKey"],
+                        configuration["CloudinaryAccount:ApiSecret"]
+                    );
+                    var path = noteimage.OpenReadStream();
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    ImageUploadParams uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(noteimage.FileName, path)
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    notes.Image = uploadResult.Url.ToString();
+                    userContext.Entry(notes).State = EntityState.Modified;
+                    userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
