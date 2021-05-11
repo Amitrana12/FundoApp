@@ -5,7 +5,6 @@
 // <creator name="Amit Rana"/>
 // -----------------------------------------------------------------------------------------------------------
 
-
 namespace FunduManger.Manager
 {
     using FundooModels;
@@ -13,8 +12,7 @@ namespace FunduManger.Manager
     using FunduManger.Interface;
     using System;
     using System.Collections.Generic;
-    using System.Text;
-
+   
     /// <summary>
     /// LableManager class
     /// </summary>
@@ -59,11 +57,11 @@ namespace FunduManger.Manager
         /// </summary>
         /// <returns>all lables</returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<LableModel> RetrieveLables()
+        public IEnumerable<LableModel> RetrieveLables(int userId)
         {
             try
             {
-                IEnumerable<LableModel> lables = this.repository.RetrieveLables();
+                IEnumerable<LableModel> lables = this.repository.RetrieveLables(userId);
                 return lables;
             }
             catch (Exception ex)

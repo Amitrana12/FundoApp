@@ -1,26 +1,46 @@
-﻿using FundooModels;
-using FunduManger.Interface;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserController.cs" company="Bridgelabz">
+//   Copyright © 2020 Company="BridgeLabz"
+// </copyright>
+// <creator name="Amit Rana"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundoApplication.Controllers
 {
+    using FundooModels;
+    using FunduManger.Interface;
+    using Microsoft.AspNetCore.Mvc;
+    using StackExchange.Redis;
+    using System;
+
+    /// <summary>
+    /// UserController class 
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
+        /// <summary>
+        /// The user
+        /// </summary>
         private readonly IUserManager manager;
-        
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// </summary>
+        /// <param name="userManager">user manager.</para
         public UserController(IUserManager manager)
         {
             this.manager = manager;
            // this.logger = logger;
         }
 
+        /// <summary>
+        /// Registrations for registration the specified user.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>response data</returns>
         [HttpPost]
         [Route("register")]
         public IActionResult Register(RegisterModel userData)
@@ -44,6 +64,11 @@ namespace FundoApplication.Controllers
             
         }
 
+        /// <summary>
+        /// LoginEmployee for the existing user
+        /// </summary>
+        /// <param name="model">model as parameter</param>
+        /// <returns>response data</returns>
         [HttpPost]
         [Route("loginEmployee")]
         public ActionResult LoginEmployee(LoginModel model)
@@ -54,7 +79,11 @@ namespace FundoApplication.Controllers
                 var result = this.manager.Login(model.Email, model.Password);   
                 if (result.Equals(true))
                 {
-                    string token = this.manager.GenerateToken(model.Email);
+                   
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    database.StringSet(key: "FundooToken", "Bearer "+this.manager.GenerateToken(model.Email));
+                    string token= database.StringGet("FundooToken");
                     return this.Ok(new { Status = true, Message = "Login Sucessfully",data=token    });
                 }
 
@@ -66,8 +95,11 @@ namespace FundoApplication.Controllers
             }
         }
 
-
-
+        /// <summary>
+        /// Forgot the password.
+        /// </summary>
+        /// <param name="emailAddress">The email address.</param>
+        /// <returns>response data</returns>
         [HttpPost]
         [Route("forgetPassword")]
         public IActionResult ForgotPassword(string emailAddress)
@@ -87,7 +119,11 @@ namespace FundoApplication.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Resets the password employee.
+        /// </summary>
+        /// <param name="resetPassword">The reset password.</param>
+        /// <returns>response data</returns>
         [HttpPut]
         [Route("resetPassword")]
         public IActionResult ResetPasswordEmployee(ResetPassword resetPassword)

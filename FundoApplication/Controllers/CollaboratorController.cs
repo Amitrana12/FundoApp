@@ -92,11 +92,11 @@ namespace FundoApplication.Controllers
         /// <returns>response data</returns>
         [HttpGet]
         [Route("retrieveAllCollaborator")]
-        public IActionResult RetrieveAllCollaborator()
+        public IActionResult RetrieveAllCollaborator(int nodeiNoteId)
         {
             try
             {
-                IEnumerable<CollaboratorModel> result = this.collaboratorManager.GetCollaborator();
+                IEnumerable<CollaboratorModel> result = this.collaboratorManager.GetCollaborator(nodeiNoteId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<IEnumerable<CollaboratorModel>>() { Status = true, Message = "Retrieve Collaborator Successfully", Data = result });

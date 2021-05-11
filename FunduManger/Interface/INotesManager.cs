@@ -27,7 +27,7 @@ namespace FunduManger.Interface
         /// Retrieves the notes.
         /// </summary>
         /// <returns>all notes</returns>
-        public IEnumerable<NotesModel> RetrieveNotes();
+        public IEnumerable<NotesModel> RetrieveNotes(int userId);
 
         /// <summary>
         /// Retrieves the notes by identifier.
@@ -68,7 +68,7 @@ namespace FunduManger.Interface
         /// Retrieves the archive notes.
         /// </summary>
         /// <returns>data in list </returns>
-        public IEnumerable<NotesModel> RetrieveArchieveNotes();
+        public IEnumerable<NotesModel> RetrieveArchieveNotes(int userId);
 
         /// <summary>
         /// Determines whether the specified identifier is trash.
@@ -87,7 +87,7 @@ namespace FunduManger.Interface
         /// Retrieves the trash notes.
         /// </summary>
         /// <returns>all trash notes</returns>
-        public IEnumerable<NotesModel> RetrieveTrashNotes();
+        public IEnumerable<NotesModel> RetrieveTrashNotes(int userId);
 
         /// <summary>
         /// Adds the reminder.
@@ -101,7 +101,7 @@ namespace FunduManger.Interface
         /// Gets all notes who's reminder is set.
         /// </summary>
         /// <returns>all notes whose reminder is set</returns>
-        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet();
+        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet(int userId);
 
         /// <summary>
         /// Unsets the reminder.

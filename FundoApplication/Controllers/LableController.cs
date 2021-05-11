@@ -68,11 +68,11 @@ namespace FundoApplication.Controllers
         /// <returns>response data</returns>
         [HttpGet]
         [Route("retrieveAllLables")]
-        public IActionResult RetrieveAllLables()
+        public IActionResult RetrieveAllLables(int userId)
         {
             try
             {
-                IEnumerable<LableModel> result = this.lableManager.RetrieveLables();
+                IEnumerable<LableModel> result = this.lableManager.RetrieveLables(userId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<IEnumerable<LableModel>>() { Status = true, Message = "Retrieve Lables Successfully", Data = result });
@@ -93,11 +93,11 @@ namespace FundoApplication.Controllers
         /// <returns>response data</returns>
         [HttpGet]
         [Route("lableId")]
-        public IActionResult RetrieveLableById(int lableId)
+        public IActionResult RetrieveLableById(int noteId)
         {
             try
             {
-                LableModel result = this.lableManager.RetrieveLableById(lableId);
+                LableModel result = this.lableManager.RetrieveLableById(noteId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<LableModel>() { Status = true, Message = "Retrieve Lable By Id Successfully", Data = result });

@@ -36,6 +36,6 @@ namespace FundooRepository.Interface
         /// Gets the collaborator.
         /// </summary>
         /// <returns>collaborator</returns>
-        public IEnumerable<CollaboratorModel> GetCollaborator();
+        public IEnumerable<CollaboratorModel> GetCollaborator(int nodeiNoteId);
     }
 }

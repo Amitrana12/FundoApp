@@ -1,12 +1,21 @@
-﻿using FundooModels;
-using FundooRepository.Interface;
-using FunduManger.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CollaboratorManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Amit Rana"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FunduManger.Manager
 {
+    using FundooModels;
+    using FundooRepository.Interface;
+    using FunduManger.Interface;
+    using System;
+    using System.Collections.Generic;
+   
+    /// <summary>
+    /// CollaboratorManager  class 
+    /// </summary>
     public class CollaboratorManager : ICollaboratorManager
     {
         /// <summary>
@@ -66,11 +75,11 @@ namespace FunduManger.Manager
         /// </summary>
         /// <returns>all collaborator</returns>
         /// <exception cref="Exception">ex.message</exception>
-        public IEnumerable<CollaboratorModel> GetCollaborator()
+        public IEnumerable<CollaboratorModel> GetCollaborator(int nodeiNoteId)
         {
             try
             {
-                IEnumerable<CollaboratorModel> lables = this.repository.GetCollaborator();
+                IEnumerable<CollaboratorModel> lables = this.repository.GetCollaborator(nodeiNoteId);
                 return lables;
             }
             catch (Exception ex)

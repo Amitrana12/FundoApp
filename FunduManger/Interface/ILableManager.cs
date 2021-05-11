@@ -1,10 +1,18 @@
-﻿using FundooModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ILableManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Amit Rana"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FunduManger.Interface
 {
+    using FundooModels;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// INotesManager interface
+    /// </summary>
     public interface ILableManager
     {
         /// <summary>
@@ -18,7 +26,7 @@ namespace FunduManger.Interface
         /// Retrieves the lables.
         /// </summary>
         /// <returns>all lables</returns>
-        public IEnumerable<LableModel> RetrieveLables();
+        public IEnumerable<LableModel> RetrieveLables(int userId);
 
         /// <summary>
         /// Removes the lable.
@@ -39,6 +47,6 @@ namespace FunduManger.Interface
         /// </summary>
         /// <param name="id">lable id</param>
         /// <returns>String message</returns>
-        public LableModel RetrieveLableById(int lableId);
+        public LableModel RetrieveLableById(int noteId);
     }
 }

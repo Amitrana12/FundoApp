@@ -1,31 +1,51 @@
-﻿using FundooModels;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
-using Experimental.System.Messaging;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.Extensions.Configuration;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Amit Rana"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooRepository.Repository
 {
+    using FundooModels;
+    using FundooRepository.Context;
+    using FundooRepository.Interface;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Mail;
+    using System.Text;
+    using Experimental.System.Messaging;
+    using System.Security.Claims;
+    using Microsoft.IdentityModel.Tokens;
+    using System.IdentityModel.Tokens.Jwt;
+    using Microsoft.Extensions.Configuration;
+
+    /// <summary>
+    /// User Repository
+    /// </summary>
+    /// <seealso cref="FundooRepository.Interfaces.IUserRepository" />
     public class UserRepository : IUserRepository
     {
+        /// <summary>
+        /// The user context
+        /// </summary>
         private readonly UserContext userContext;
         private readonly IConfiguration configuration;
+
+
         public UserRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
             this.configuration = configuration;
         }
 
+        /// <summary>
+        /// EncryptPassword methode to encrypt password
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns>encoded data</returns>
         public static string EncryptPassword(string password)
         {
             try
@@ -41,7 +61,12 @@ namespace FundooRepository.Repository
             }
         }
 
-
+        /// <summary>
+        /// Logins the specified email.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>return true or false</returns>
         public bool Login(string email, string password)
         {
             try
@@ -63,7 +88,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
+        /// <summary>
+        /// Registers the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>true or false</returns>
         public bool AddNewUser(RegisterModel userData)
         {
             try
@@ -86,8 +115,11 @@ namespace FundooRepository.Repository
 
         }
 
-
-
+        /// <summary>
+        /// SendEmail Method for the sending email
+        /// </summary>
+        /// <param name="emailAddress">email Address</param>
+        /// <returns>return true or false</returns>
         public bool SendEmail(string emailAddress)
         {
             try
@@ -123,6 +155,11 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// ResetPassword method
+        /// </summary>
+        /// <param name="resetPassword">reset Password</param>
+        /// <returns>return true or false</returns>
         public bool ResetPassword(ResetPassword resetPassword)
         {
             try
@@ -153,6 +190,9 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// sender method for MSMQ
+        /// </summary>
         public void SendMessage()
         {
             var body = "Click on following link to reset your credentials for Fundoo Notes App: ";
@@ -172,6 +212,10 @@ namespace FundooRepository.Repository
             msmqQueue.Label = "url link";
             msmqQueue.Send(message);
         }
+
+        /// <summary>
+        /// receiver method for MSMQ
+        /// </summary>
         public string receiverMessage()
         {
             MessageQueue reciever = new MessageQueue(@".\Private$\MyQueue");
@@ -181,6 +225,11 @@ namespace FundooRepository.Repository
             return body;
         }
 
+        /// <summary>
+        /// GenerateToken method
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <returns>token for specific email</returns>
         public string GenerateToken(string email)
         {
             try

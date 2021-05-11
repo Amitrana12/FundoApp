@@ -1,29 +1,55 @@
-﻿using FundooModels;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.AspNetCore.Http;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Amit Rana"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooRepository.Repository
 {
+    using FundooModels;
+    using FundooRepository.Context;
+    using FundooRepository.Interface;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.AspNetCore.Http;
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+
+    /// <summary>
+    /// NotesRepository class
+    /// </summary>
+    /// <seealso cref="FundooRepository.Interfaces.INotesRepository" />
     public class NotesRepository : INotesRepository
     {
+        /// <summary>
+        /// The user context
+        /// </summary>
         private UserContext userContext;
+
+        /// <summary>
+        /// The user IConfiguration
+        /// </summary>
         private IConfiguration configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotesRepository"/> class.
+        /// </summary>
+        /// <param name="userContext">The user context.</param>
         public NotesRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
             this.configuration = configuration;
         }
 
+        /// <summary>
+        /// Adds the notes.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>return true or false</returns>
         public bool AddNotes(NotesModel model)
         {
             try
@@ -45,13 +71,16 @@ namespace FundooRepository.Repository
             }
         }
 
-
-        public IEnumerable<NotesModel> RetrieveNotes()
+        /// <summary>
+        /// Retrieves the notes.
+        /// </summary>
+        /// <returns>all notes</returns>   
+        public IEnumerable<NotesModel> RetrieveNotes(int userId)
         {
             try
             {
                 IEnumerable<NotesModel> result;
-                IEnumerable<NotesModel> notes = this.userContext.Note_model;
+                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x=> x.UserId==userId);
                 if (notes != null)
                 {
                     result = notes;
@@ -69,8 +98,12 @@ namespace FundooRepository.Repository
             }
         }
 
-
-
+        /// <summary>
+        /// Retrieves the notes by identifier.
+        /// </summary>
+        /// <param name="id">note id.</param>
+        /// <returns>specific note</returns>
+        /// <exception cref="Exception"></exception>
         public NotesModel RetrieveNotesById(int noteId)
         {
             try
@@ -215,12 +248,12 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <returns>all notes i archive</returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<NotesModel> RetrieveArchieveNotes()
+        public IEnumerable<NotesModel> RetrieveArchieveNotes(int userId)
         {
             try
             {
                 IEnumerable<NotesModel> result;
-                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x => x.Archive == true).ToList();
+                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x => x.Archive == true && x.UserId== userId).ToList();
                 if (notes != null)
                 {
                     result = notes;
@@ -277,12 +310,12 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<NotesModel> RetrieveTrashNotes()
+        public IEnumerable<NotesModel> RetrieveTrashNotes(int userId)
         {
             try
             {
                 IEnumerable<NotesModel> result;
-                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x => x.isTrash == true).ToList();
+                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x => x.isTrash == true && x.UserId == userId).ToList();
                 if (notes != null)
                 {
                     result = notes;
@@ -360,12 +393,12 @@ namespace FundooRepository.Repository
         /// <param name="id">note id</param>
         /// <returns>notes</returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet()
+        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet(int userId)
         {
             try
             {
                 IEnumerable<NotesModel> result;
-                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x => x.Reminder.Length > 0);
+                IEnumerable<NotesModel> notes = this.userContext.Note_model.Where(x => x.Reminder.Length > 0 && x.UserId == userId);
                 if (notes != null)
                 {
                     result = notes;

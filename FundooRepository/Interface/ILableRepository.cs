@@ -28,7 +28,7 @@ namespace FundooRepository.Interface
         /// Retrieves the notes.
         /// </summary>
         /// <returns>all lables</returns>
-        public IEnumerable<LableModel> RetrieveLables();
+        public IEnumerable<LableModel> RetrieveLables(int userId);
 
         /// <summary>
         /// Removes the lable.

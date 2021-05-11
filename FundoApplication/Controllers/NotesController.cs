@@ -1,30 +1,48 @@
-﻿
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Amit Rana"/>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace FundoApplication.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using FundooModels;
     using FunduManger.Interface;
     using Microsoft.AspNetCore.Http;
 
+    /// <summary>
+    /// NotesController class
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class NotesController : Controller
     {
-
+        /// <summary>
+        /// The notes manager
+        /// </summary>
         private readonly INotesManager notesManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotesController"/> class.
+        /// </summary>
+        /// <param name="notesManager">The notes manager.</param>
         public NotesController(INotesManager notesManager)
         {
             this.notesManager = notesManager;
         }
 
-
+        /// <summary>
+        /// Adds the notes.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>response data</returns>
         [HttpPost]
         [Route("addNotes")]
         public ActionResult AddNotes(NotesModel model)
@@ -46,13 +64,17 @@ namespace FundoApplication.Controllers
             }
         }
 
+        /// <summary>
+        /// RetrieveNotes to retrieve all the notes
+        /// </summary>
+        /// <returns>response data</returns>
         [HttpGet]
         [Route("retrieveNotesAll")]
-        public IActionResult RetrieveNotes()
+        public IActionResult RetrieveNotes(int userID)
         {
             try
             {
-                IEnumerable<NotesModel> result = this.notesManager.RetrieveNotes();
+                IEnumerable<NotesModel> result = this.notesManager.RetrieveNotes(userID);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<IEnumerable<NotesModel>>() { Status = true, Message = "Retrieve Notes Successfully", Data = result });
@@ -66,8 +88,11 @@ namespace FundoApplication.Controllers
             }
         }
 
-
-
+        /// <summary>
+        /// RetrieveNotesById to retrieve particular notes
+        /// </summary>
+        /// <param name="noteId">note id</param>
+        /// <returns>response data</returns>
         [HttpGet]
         [Route(" RetrieveNotesByNoteID")]
         public IActionResult RetrieveNotesById(int noteId)
@@ -194,11 +219,11 @@ namespace FundoApplication.Controllers
         /// <returns>response body</returns>
         [HttpGet]
         [Route("retrieveAllArchieveNotes")]
-        public IActionResult RetrieveAllArchieveNotes()
+        public IActionResult RetrieveAllArchieveNotes(int userId)
         {
             try
             {
-                IEnumerable<NotesModel> result = this.notesManager.RetrieveArchieveNotes();
+                IEnumerable<NotesModel> result = this.notesManager.RetrieveArchieveNotes(userId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<IEnumerable<NotesModel>>() { Status = true, Message = "Retrieve Notes Successfully", Data = result });
@@ -211,7 +236,6 @@ namespace FundoApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-
 
         /// <summary>
         /// Trash  or untrash.
@@ -244,11 +268,11 @@ namespace FundoApplication.Controllers
         /// <returns>response data</returns>
         [HttpGet]
         [Route("retrieveAllTrashNotes")]
-        public IActionResult RetrieveAllTrashNotes()
+        public IActionResult RetrieveAllTrashNotes(int userId)
         {
             try
             {
-                IEnumerable<NotesModel> result = this.notesManager.RetrieveTrashNotes();
+                IEnumerable<NotesModel> result = this.notesManager.RetrieveTrashNotes(userId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<IEnumerable<NotesModel>>() { Status = true, Message = "Retrieve Notes Successfully", Data = result });
@@ -318,11 +342,11 @@ namespace FundoApplication.Controllers
         /// <returns>Response data</returns>
         [HttpGet]
         [Route("getAllNotesWhoseReminderIsSet")]
-        public IActionResult GetAllNotesWhoseReminderIsSet()
+        public IActionResult GetAllNotesWhoseReminderIsSet(int userId)
         {
             try
             {
-                IEnumerable<NotesModel> result = this.notesManager.GetAllNotesWhoesReminderIsSet();
+                IEnumerable<NotesModel> result = this.notesManager.GetAllNotesWhoesReminderIsSet(userId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<IEnumerable<NotesModel>>() { Status = true, Message = "Retrieve All Notes Whose Reminder Is Set", Data = result });

@@ -5,7 +5,6 @@
 // <creator name=Amit Rana"/>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace FundooRepository.Repository
 {
     using FundooModels;
@@ -14,7 +13,6 @@ namespace FundooRepository.Repository
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     public class CollaboratorRepository : ICollaboratorRepository
     {
         /// <summary>
@@ -85,12 +83,12 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <returns>all collaborator</returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<CollaboratorModel> GetCollaborator()
+        public IEnumerable<CollaboratorModel> GetCollaborator(int NoteId)
         {
             try
             {
                 IEnumerable<CollaboratorModel> result;
-                IEnumerable<CollaboratorModel> notes = this.userContext.Collaborator;
+                IEnumerable<CollaboratorModel> notes = this.userContext.Collaborator.Where(x => x.NoteId == NoteId); 
                 if (notes != null)
                 {
                     result = notes;
@@ -104,7 +102,8 @@ namespace FundooRepository.Repository
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
+            } 
         }
     }
 }
+

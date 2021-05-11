@@ -65,12 +65,12 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <returns>all lables</returns>
         /// <exception cref="Exception">ex.message</exception>
-        public IEnumerable<LableModel> RetrieveLables()
+        public IEnumerable<LableModel> RetrieveLables(int userId)
         {
             try
             {
                 IEnumerable<LableModel> result;
-                IEnumerable<LableModel> notes = this.userContext.Lable_Models;
+                IEnumerable<LableModel> notes = this.userContext.Lable_Models.Where(x=> x.UserId==userId).ToList();
                 if (notes != null)
                 {
                     result = notes;

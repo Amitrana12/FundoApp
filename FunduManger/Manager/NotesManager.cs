@@ -1,23 +1,44 @@
-﻿using FundooModels;
-using FundooRepository.Interface;
-using FunduManger.Interface;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Amit Rana"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FunduManger.Manager
 {
-   public class NotesManager : INotesManager
+    using FundooModels;
+    using FundooRepository.Interface;
+    using FunduManger.Interface;
+    using Microsoft.AspNetCore.Http;
+    using System;
+    using System.Collections.Generic;
+    
+    /// <summary>
+    /// NotesManager class
+    /// </summary>
+    /// <seealso cref="FundooManager.Interface.INotesManager" />
+    public class NotesManager : INotesManager
     {
+        /// <summary>
+        /// The repository
+        /// </summary>
         private readonly INotesRepository repository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotesManager"/> class.
+        /// </summary>
+        /// <param name="userRepository">The user repository.</param>
         public NotesManager(INotesRepository userRepository)
         {
             this.repository = userRepository;
         }
 
+        /// <summary>
+        /// Adds the notes.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>return true or false</returns>
         public bool AddNotes(NotesModel model)
         {
             try
@@ -32,11 +53,15 @@ namespace FunduManger.Manager
             }
         }
 
-        public IEnumerable<NotesModel> RetrieveNotes()
+        /// <summary>
+        /// Retrieves the notes.
+        /// </summary>
+        /// <returns>all notes</returns>
+        public IEnumerable<NotesModel> RetrieveNotes(int userId)
         {
             try
             {
-                IEnumerable<NotesModel> notes = this.repository.RetrieveNotes();
+                IEnumerable<NotesModel> notes = this.repository.RetrieveNotes(userId);
                 return notes;
             }
             catch (Exception ex)
@@ -45,8 +70,12 @@ namespace FunduManger.Manager
             }
         }
 
-
-
+        /// <summary>
+        /// Retrieves the notes by identifier.
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>particular note</returns>
+        /// <exception cref="Exception"></exception>
         public NotesModel RetrieveNotesById(int noteId)
         {
             try
@@ -142,11 +171,11 @@ namespace FunduManger.Manager
         /// </summary>
         /// <returns>all archieve notes</returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<NotesModel> RetrieveArchieveNotes()
+        public IEnumerable<NotesModel> RetrieveArchieveNotes(int userId)
         {
             try
             {
-                IEnumerable<NotesModel> result = this.repository.RetrieveArchieveNotes();
+                IEnumerable<NotesModel> result = this.repository.RetrieveArchieveNotes(userId);
                 return result;
             }
             catch (Exception ex)
@@ -198,11 +227,11 @@ namespace FunduManger.Manager
         /// </summary>
         /// <returns>all trash notes</returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<NotesModel> RetrieveTrashNotes()
+        public IEnumerable<NotesModel> RetrieveTrashNotes(int userId)
         {
             try
             {
-                IEnumerable<NotesModel> result = this.repository.RetrieveTrashNotes();
+                IEnumerable<NotesModel> result = this.repository.RetrieveTrashNotes(userId);
                 return result;
             }
             catch (Exception ex)
@@ -236,11 +265,11 @@ namespace FunduManger.Manager
         /// </summary>
         /// <returns>notes whose reminder is set</returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet()
+        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet(int userId)
         {
             try
             {
-                IEnumerable<NotesModel> notes = this.repository.GetAllNotesWhoesReminderIsSet();
+                IEnumerable<NotesModel> notes = this.repository.GetAllNotesWhoesReminderIsSet(userId);
                 return notes;
             }
             catch (Exception ex)

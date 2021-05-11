@@ -1,19 +1,41 @@
-﻿using FundooModels;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="INotesRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Amit Rana"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooRepository.Interface
 {
+    using FundooModels;
+    using Microsoft.AspNetCore.Http;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    /// <summary>
+    /// INotesRepository interface
+    /// </summary>
     public interface INotesRepository
     {
+        /// <summary>
+        /// Adds the notes.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>return true or false</returns>
         public bool AddNotes(NotesModel model);
 
+        /// <summary>
+        /// Retrieves the notes.
+        /// </summary>
+        /// <returns>all notes</returns>
+        public IEnumerable<NotesModel> RetrieveNotes(int userId);
 
-        public IEnumerable<NotesModel> RetrieveNotes();
-
-
+        /// <summary>
+        /// Retrieves the notes by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>note model</returns>
         public NotesModel RetrieveNotesById(int id);
 
         /// <summary>
@@ -50,7 +72,7 @@ namespace FundooRepository.Interface
         /// Retrieves the archive notes.
         /// </summary>
         /// <returns>all archieve notes</returns>
-        public IEnumerable<NotesModel> RetrieveArchieveNotes();
+        public IEnumerable<NotesModel> RetrieveArchieveNotes(int userId);
 
         /// <summary>
         /// Determines whether the specified identifier is trash.
@@ -63,7 +85,7 @@ namespace FundooRepository.Interface
         /// Retrieves the trash notes.
         /// </summary>
         /// <returns>all trash notes</returns>
-        public IEnumerable<NotesModel> RetrieveTrashNotes();
+        public IEnumerable<NotesModel> RetrieveTrashNotes(int userId);
 
         /// <summary>
         /// Empties the trash.
@@ -83,7 +105,7 @@ namespace FundooRepository.Interface
         /// Gets all notes whoes reminder is set.
         /// </summary>
         /// <returns>all notes whos reminder is set</returns>
-        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet();
+        public IEnumerable<NotesModel> GetAllNotesWhoesReminderIsSet(int userId);
 
         /// <summary>
         /// Unset the reminder.

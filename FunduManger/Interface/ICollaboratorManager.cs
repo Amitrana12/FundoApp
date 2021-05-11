@@ -1,4 +1,10 @@
-﻿
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ICollaboratorManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Amit Rana"/>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace FunduManger.Interface
 {
     using FundooModels;
@@ -26,6 +32,6 @@ namespace FunduManger.Interface
         /// Gets the collaborator.
         /// </summary>
         /// <returns>Success message</returns>
-        public IEnumerable<CollaboratorModel> GetCollaborator();
+        public IEnumerable<CollaboratorModel> GetCollaborator(int nodeiNoteId);
     }
 }
