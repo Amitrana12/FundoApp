@@ -78,11 +78,11 @@ namespace FunduManger.Manager
         /// particular lable
         /// </returns>
         /// <exception cref="Exception"></exception>
-        public IEnumerable<LableModel> RetrieveLableById(int noteId)
+        public IEnumerable<LableModel> RetrieveLableByNoteId(int noteId)
         {
             try
             {
-                IEnumerable<LableModel> lables = this.repository.RetrieveLableById(noteId);
+                IEnumerable<LableModel> lables = this.repository.RetrieveLableBynoteId(noteId);
                 if (lables != null)
                 {
                     return lables;

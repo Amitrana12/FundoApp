@@ -94,7 +94,7 @@ namespace FundooRepository.Repository
         /// <param name="lableId">lable id</param>
         /// <returns>lable model</returns>
         /// <exception cref="Exception">ex.Message</exception>
-        public  IEnumerable<LableModel> RetrieveLableById(int noteId)
+        public  IEnumerable<LableModel> RetrieveLableBynoteId(int noteId)
         {
             try
             {

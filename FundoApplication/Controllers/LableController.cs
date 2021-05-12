@@ -93,11 +93,11 @@ namespace FundoApplication.Controllers
         /// <returns>response data</returns>
         [HttpGet]
         [Route("lableId")]
-        public IActionResult RetrieveLableById(int noteId)
+        public IActionResult RetrieveLableByNoteId(int noteId)
         {
             try
             {
-                 IEnumerable<LableModel> result = this.lableManager.RetrieveLableById(noteId);
+                 IEnumerable<LableModel> result = this.lableManager.RetrieveLableByNoteId(noteId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<IEnumerable<LableModel>>() { Status = true, Message = "Retrieve Lable By Id Successfully", Data = result });
