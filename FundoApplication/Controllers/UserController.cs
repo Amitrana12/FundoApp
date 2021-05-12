@@ -25,15 +25,19 @@ namespace FundoApplication.Controllers
         /// The user
         /// </summary>
         private readonly IUserManager manager;
+        /// <summary>
+        /// The logger
+        /// </summary>
+        private ILog logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
         /// <param name="userManager">user manager.</para
-        public UserController(IUserManager manager)
+        public UserController(IUserManager manager, ILog logger)
         {
             this.manager = manager;
-           // this.logger = logger;
+           this.logger = logger;
         }
 
         /// <summary>
@@ -75,7 +79,11 @@ namespace FundoApplication.Controllers
         {
             try
             {
-                
+                logger.Information("Information is logged");
+                logger.Warning("Warnning is logged");
+                logger.Debug("Debgue is logged");
+                logger.Error("Error is logged");
+
                 var result = this.manager.Login(model.Email, model.Password);   
                 if (result.Equals(true))
                 {

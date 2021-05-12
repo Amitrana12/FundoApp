@@ -21,6 +21,8 @@ namespace FundoApplication
     using Microsoft.Extensions.Hosting;
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
+    using NLog;
+    using System.IO;
     using System.Text;
 
     /// <summary>
@@ -34,6 +36,7 @@ namespace FundoApplication
         /// <param name="configuration">The configuration.</param>
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(System.String.Concat(Directory.GetCurrentDirectory(), "/Nlog.config"));
             this.Configuration = configuration;
         }
 
@@ -59,6 +62,7 @@ namespace FundoApplication
             services.AddTransient<ICollaboratorManager, CollaboratorManager>();
             services.AddTransient<ILableRepository, LableRepository>();
             services.AddTransient<ILableManager, LableManager>();
+            services.AddSingleton<ILog, LogNLog>();
             services.AddDbContextPool<UserContext>(
             options => options.UseSqlServer(this.Configuration.GetConnectionString("UserDbConnection")));
             services.AddSwaggerGen(c =>

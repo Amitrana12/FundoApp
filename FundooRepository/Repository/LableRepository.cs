@@ -94,17 +94,22 @@ namespace FundooRepository.Repository
         /// <param name="lableId">lable id</param>
         /// <returns>lable model</returns>
         /// <exception cref="Exception">ex.Message</exception>
-        public LableModel RetrieveLableById(int lableId)
+        public  IEnumerable<LableModel> RetrieveLableById(int noteId)
         {
             try
             {
-                LableModel notes = this.userContext.Lable_Models.Where(x => x.LableId == lableId).SingleOrDefault();
+                IEnumerable<LableModel> result;
+                IEnumerable<LableModel> notes = this.userContext.Lable_Models.Where(x => x.NoteId == noteId).ToList();
                 if (notes != null)
                 {
-                    return notes;
+                    result = notes;
+                }
+                else
+                {
+                    result = null;
                 }
 
-                return null;
+                return result;
             }
             catch (Exception ex)
             {

@@ -49,6 +49,6 @@ namespace FundooRepository.Interface
         /// </summary>
         /// <param name="id">lable id.</param>
         /// <returns>particular lable</returns>
-        public LableModel RetrieveLableById(int lableId);
+        public IEnumerable<LableModel> RetrieveLableById(int noteId);
     }
 }

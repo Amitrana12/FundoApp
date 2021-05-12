@@ -47,6 +47,6 @@ namespace FunduManger.Interface
         /// </summary>
         /// <param name="id">lable id</param>
         /// <returns>String message</returns>
-        public LableModel RetrieveLableById(int noteId);
+        public IEnumerable<LableModel> RetrieveLableById(int noteId);
     }
 }

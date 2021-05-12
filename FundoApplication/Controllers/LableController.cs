@@ -97,10 +97,10 @@ namespace FundoApplication.Controllers
         {
             try
             {
-                LableModel result = this.lableManager.RetrieveLableById(noteId);
+                 IEnumerable<LableModel> result = this.lableManager.RetrieveLableById(noteId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<LableModel>() { Status = true, Message = "Retrieve Lable By Id Successfully", Data = result });
+                    return this.Ok(new ResponseModel<IEnumerable<LableModel>>() { Status = true, Message = "Retrieve Lable By Id Successfully", Data = result });
                 }
 
                 return this.BadRequest(new { Status = false, Message = "Failed to Retrieve Lable By id" });
